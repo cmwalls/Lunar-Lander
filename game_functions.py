@@ -5,19 +5,12 @@ from debris import Debris
 from antimatter import Antimatter
 import math
 import random
-import webbrowser
 
 def check_credits_button(title, creditsButton, credits, mouseX, mouseY):
 	creditsClicked = creditsButton.rect.collidepoint(mouseX, mouseY)
 	if creditsClicked and title.viewed:
 		credits.viewed = True
 		title.viewed = False
-		
-def check_link(enterName, mouseX, mouseY):
-	linkClicked = enterName.linkRect.collidepoint(mouseX, mouseY)
-	if linkClicked and enterName.viewed:
-		enterName.linkColor = (70, 29, 219)
-		webbrowser.open(r"https://thingsnstuff.in/lunar_lander")
 
 def check_ok_button(title, okButton, mouseX, mouseY, howToPlay, credits):
 	okClicked = okButton.rect.collidepoint(mouseX, mouseY)
@@ -39,14 +32,13 @@ def check_quit_button(title, quitButton, mouseX, mouseY):
 	if quitClicked and title.viewed:
 		sys.exit()
 
-def check_start_button(stats, event, playButton, mouseX, mouseY, fuelCanisters, fuel, lander, landingPad, ll_Settings, level, debris, dropship, antiM, scoreboard, enterName, highScore, title, startButton):
+def check_start_button(stats, event, playButton, mouseX, mouseY, fuelCanisters, fuel, lander, landingPad, ll_Settings, level, debris, dropship, antiM, scoreboard, enterName, title, startButton):
 	startClicked = startButton.rect.collidepoint(mouseX, mouseY)
 	if startClicked and title.viewed:
 		title.viewed = False
 		pygame.mouse.set_visible(False)
 		stats.gameActive = True
 		stats.reset_stats()
-		highScore.get_highscore()
 		scoreboard.prep_score()
 		scoreboard.prep_level()
 		scoreboard.prep_high_score()
@@ -291,13 +283,12 @@ def generate_canister(ll_Settings, screen, fuelCanisters):
 		fuelCanisters.add(newFuelCanister)
 		ll_Settings.canisterTimeStart = ll_Settings.defaultCanisterTimeStart
 
-def check_keydown_events(event, lander, flames, ll_Settings, stats, enterName, highScore, title, howToPlay):
+def check_keydown_events(event, lander, flames, ll_Settings, stats, enterName, title, howToPlay):
 	"""Resond to key presses"""
 	if enterName.viewed:
 		if event.key == pygame.K_BACKSPACE:
 			enterName.name = enterName.name[:-1]
 		elif event.key == pygame.K_RETURN:
-			highScore.post_highscore()
 			enterName.viewed = False
 			title.viewed = True
 		else:
@@ -360,10 +351,10 @@ def check_keyup_events(event, lander, flames, ll_Settings):
 		lander.movingUp = False
 		flames.engaged = False
 		
-def check_mousedown_events(stats, event, playButton, fuelCanisters, fuel, lander, landingPad, ll_Settings, level, debris, dropship, antiM, scoreboard, enterName, highScore, title, startButton, quitButton, howButton, howToPlay, okButton, credits, creditsButton):
+def check_mousedown_events(stats, event, playButton, fuelCanisters, fuel, lander, landingPad, ll_Settings, level, debris, dropship, antiM, scoreboard, enterName, title, startButton, quitButton, howButton, howToPlay, okButton, credits, creditsButton):
 	mouseX, mouseY = pygame.mouse.get_pos()
 	
-	check_start_button(stats, event, playButton, mouseX, mouseY, fuelCanisters, fuel, lander, landingPad, ll_Settings, level, debris, dropship, antiM, scoreboard, enterName, highScore, title, startButton)
+	check_start_button(stats, event, playButton, mouseX, mouseY, fuelCanisters, fuel, lander, landingPad, ll_Settings, level, debris, dropship, antiM, scoreboard, enterName, title, startButton)
 	
 	check_play_button(stats, event, playButton, mouseX, mouseY, enterName, title, startButton, howToPlay, credits)
 	
@@ -373,21 +364,19 @@ def check_mousedown_events(stats, event, playButton, fuelCanisters, fuel, lander
 	
 	check_ok_button(title, okButton, mouseX, mouseY, howToPlay, credits)
 	
-	check_link(enterName, mouseX, mouseY)
-	
 	check_credits_button(title, creditsButton, credits, mouseX, mouseY)
 	
-def check_events(lander, flames, fuel, ll_Settings, playButton, stats, fuelCanisters, landingPad, level, debris, dropship, antiM, scoreboard, enterName, highScore, title, startButton, quitButton, howButton, howToPlay, okButton, credits, creditsButton):
+def check_events(lander, flames, fuel, ll_Settings, playButton, stats, fuelCanisters, landingPad, level, debris, dropship, antiM, scoreboard, enterName, title, startButton, quitButton, howButton, howToPlay, okButton, credits, creditsButton):
 	"""Respond to keypresses and mouse events"""
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			sys.exit()
 		elif event.type == pygame.KEYDOWN:
-			check_keydown_events(event, lander, flames, ll_Settings, stats, enterName, highScore, title, howToPlay)
+			check_keydown_events(event, lander, flames, ll_Settings, stats, enterName, title, howToPlay)
 		elif event.type == pygame.KEYUP:
 			check_keyup_events(event, lander, flames, ll_Settings)
 		elif event.type == pygame.MOUSEBUTTONDOWN:
-			check_mousedown_events(stats, event, playButton, fuelCanisters, fuel, lander, landingPad, ll_Settings, level, debris, dropship, antiM, scoreboard, enterName, highScore, title, startButton, quitButton, howButton, howToPlay, okButton, credits, creditsButton)
+			check_mousedown_events(stats, event, playButton, fuelCanisters, fuel, lander, landingPad, ll_Settings, level, debris, dropship, antiM, scoreboard, enterName, title, startButton, quitButton, howButton, howToPlay, okButton, credits, creditsButton)
 				
 def update_screen(ll_Settings, screen, level, lander, flames, fuel, fuelCanisters, landingPad, explosion, stats, playButton, debris, dropship, antiM, tractorBeam, scoreboard, enterName, title, startButton, howButton, quitButton, howToPlay, okButton, credits, creditsButton):
 	"""Update images on the screen and flip the new screen"""
