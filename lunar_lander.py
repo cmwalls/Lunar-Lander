@@ -14,7 +14,6 @@ from credits_button import CreditsButton
 from dropship import Dropship
 from tractor_beam import TractorBeam
 from scoreboard import Scoreboard
-from post_high_score import PostHighScore
 from enter_name import EnterName
 from title import Title
 from start_button import StartButton
@@ -23,14 +22,6 @@ from how_to_play import HowToPlay
 from credits import Credits
 import game_functions as gf
 from pygame.sprite import Group
-from steamworks import STEAMWORKS
-
-# Declare the steamworks variable and create a new instance of the Steamworks class
-steamworks = STEAMWORKS()
-
-# Initialize Steam
-steamworks.initialize()
-steamworks.Users.GetAuthSessionTicket()
 
 def run_game():
 	# Initialize pygame, settings, and screen object
@@ -50,7 +41,6 @@ def run_game():
 	title = Title(screen)
 	enterName = EnterName(screen)
 	credits = Credits(screen)
-	highScore = PostHighScore(scoreboard, stats, enterName, steamworks)
 	level = Level(ll_Settings, screen)
 	fuel = Fuel(ll_Settings, screen, lander, stats)
 	landingPad = LandingPad(ll_Settings, screen)
@@ -70,7 +60,7 @@ def run_game():
 	while True:
 		clock.tick(fps)
 		# Watch for keyboard and mouse events
-		gf.check_events(lander, flames, fuel, ll_Settings, playButton, stats, fuelCanisters, landingPad, level, debris, dropship, antiM, scoreboard, enterName, highScore, title, startButton, quitButton, howButton, howToPlay, okButton, credits, creditsButton)
+		gf.check_events(lander, flames, fuel, ll_Settings, playButton, stats, fuelCanisters, landingPad, level, debris, dropship, antiM, scoreboard, enterName, title, startButton, quitButton, howButton, howToPlay, okButton, credits, creditsButton)
 		
 		if enterName.viewed:
 			enterName.update()
