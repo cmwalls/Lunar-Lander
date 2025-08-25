@@ -1,0 +1,1 @@
+pyinstaller -w -i favicon.ico --clean lunar_lander.py

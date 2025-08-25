@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Virtual envs
+.venv/
+env/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Game artifacts
+*.log
+*.tmp
+*.sav
+
+# Packaging outputs
+*.spec
+*.exe
+*.app
+*.dmg
+*.whl
